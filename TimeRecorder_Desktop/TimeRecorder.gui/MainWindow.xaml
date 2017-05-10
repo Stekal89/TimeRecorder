@@ -5,8 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRecorder.gui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" MinHeight="525" Height="525" MinWidth="700" Width="700">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="#FF1D25D4" Offset="0.33"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20px"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="20px"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20px"/>
+
+        </Grid.RowDefinitions>
+        <!--        Labels      -->
+        <Label x:Name="lblHeader"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" Content="Time Recorder" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Elephant" FontSize="22"/>
+        <Label x:Name="lblState" Grid.Column="3" Grid.Row="2" Content="Offline" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        <Label Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Content="State:" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="lbltime" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Content="--:--:--" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        <!--        Buttons     -->
+        <Button x:Name="btnStart" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Start" FontWeight="Bold" FontFamily="Elephant" FontSize="14" Click="btnStart_Click" Visibility="Visible"/>
+        <Button x:Name="btnPause" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Pause" FontFamily="Elephant" FontSize="14" Visibility="Hidden" Click="btnPause_Click" />
+        <Button x:Name="btnStop" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Stop" FontFamily="Elephant" FontSize="14" Visibility="Hidden" />
+        <!--        View        -->
+        <ListView x:Name="lvUser" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="5" Grid.RowSpan="2" FontWeight="Bold">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="127" Header="State"/>
+                    <GridViewColumn Width="127" Header="Day"/>
+                    <GridViewColumn Width="127" Header="Start"/>
+                    <GridViewColumn Width="127" Header="End"/>
+                    <GridViewColumn Width="127" Header="Total"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         
+        <!-- Maybe later, for the changeing of the sections (User, View, Insert, Edit)
+        <DockPanel Grid.Row="5" Grid.RowSpan="2" Grid.Column="1" LastChildFill="True"/>
+        -->
     </Grid>
 </Window>
