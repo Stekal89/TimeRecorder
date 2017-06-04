@@ -40,18 +40,18 @@
         <Label Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Content="State:" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
         <Label x:Name="lbltime" Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" Content="--:--:--" HorizontalContentAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
         <!--        Buttons     -->
-        <Button x:Name="btnStart" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Start" FontWeight="Bold" FontFamily="Elephant" FontSize="14" Click="btnStart_Click" Visibility="Visible"/>
-        <Button x:Name="btnPause" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Pause" FontFamily="Elephant" FontSize="14" Visibility="Hidden" Click="btnPause_Click" />
+        <Button x:Name="btnStart" Grid.Column="3" Grid.Row="3" Grid.RowSpan="1" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Start" FontWeight="Bold" FontFamily="Elephant" FontSize="14" Click="BtnStart_Click" Visibility="Visible"/>
+        <Button x:Name="btnPause" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Pause" FontFamily="Elephant" FontSize="14" Visibility="Hidden" Click="BtnPause_Click" />
         <Button x:Name="btnStop" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="2" MinHeight="25" MaxHeight="25" MinWidth="100" MaxWidth="100" VerticalAlignment="Center" Content="Stop" FontFamily="Elephant" FontSize="14" Visibility="Hidden" />
         <!--        View        -->
         <ListView x:Name="lvUser" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="5" Grid.RowSpan="2" FontWeight="Bold">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="127" Header="State"/>
-                    <GridViewColumn Width="127" Header="Day"/>
-                    <GridViewColumn Width="127" Header="Start"/>
-                    <GridViewColumn Width="127" Header="End"/>
-                    <GridViewColumn Width="127" Header="Total"/>
+                    <GridViewColumn Width="50" Header="State" DisplayMemberBinding="{Binding TimeType}"/>
+                    <GridViewColumn Width="175" Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Width="150" Header="Start" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn Width="150" Header="End" DisplayMemberBinding="{Binding EndTime}"/>
+                    <GridViewColumn Width="120" Header="Total" DisplayMemberBinding="{Binding ElapsedTime}"/>
                 </GridView>
             </ListView.View>
         </ListView>
