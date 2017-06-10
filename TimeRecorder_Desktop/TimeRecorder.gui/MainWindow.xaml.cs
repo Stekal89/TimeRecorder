@@ -203,9 +203,9 @@ namespace TimeRecorder.gui
         /// <param name="stoppedTimeType">old timeType (WorkTimer/PauseTimer)</param>
         /// <returns>TimeObject</returns>
         private TimeObject CreateTimeObject(string stoppedTimeType)
-        {   
+        {
             if (stoppedTimeType == "WorkTimer")
-                return new TimeObject() { TimeType = TimeType.Work, Description ="Something to work!", StartTime = startTime, EndTime = endTime, ElapsedTime = endTime - startTime };
+                return new TimeObject() { TimeType = TimeType.Work, Description = "Something to work!", StartTime = startTime, EndTime = endTime, ElapsedTime = endTime - startTime };
             else
                 return new TimeObject() { TimeType = TimeType.Pause, Description = "", StartTime = startTime, EndTime = endTime, ElapsedTime = endTime - startTime };
         }

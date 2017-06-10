@@ -47,11 +47,11 @@
         <ListView x:Name="lvUser" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="5" Grid.RowSpan="2" FontWeight="Bold">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="50" Header="State" DisplayMemberBinding="{Binding TimeType}"/>
+                    <GridViewColumn Width="50" Header="State" DisplayMemberBinding="{Binding TimeType}" />
                     <GridViewColumn Width="175" Header="Description" DisplayMemberBinding="{Binding Description}"/>
-                    <GridViewColumn Width="150" Header="Start" DisplayMemberBinding="{Binding StartTime}"/>
-                    <GridViewColumn Width="150" Header="End" DisplayMemberBinding="{Binding EndTime}"/>
-                    <GridViewColumn Width="120" Header="Total" DisplayMemberBinding="{Binding ElapsedTime}"/>
+                    <GridViewColumn Width="150" Header="Start" DisplayMemberBinding="{Binding StartTime, StringFormat='{}{0:dd.MM.yyyy-HH:MM}'}" />
+                    <GridViewColumn Width="150" Header="End" DisplayMemberBinding="{Binding EndTime, StringFormat='{}{0:dd.MM.yyyy-HH:MM}'}"/>
+                    <GridViewColumn Width="120" Header="Total" DisplayMemberBinding="{Binding ElapsedTime, StringFormat='{}{0:hh\\:mm}'}"/>
                 </GridView>
             </ListView.View>
         </ListView>
