@@ -51,34 +51,52 @@ namespace TimeRecorder.gui
             pauseTimer.Interval = new TimeSpan(0, 0, 0, 1);
             pauseTimer.Tick += PauseTimer_Tick;
 
+            Debug.Indent();
+            Debug.WriteLine("MainWindow - Initialize components!");
+            Debug.Unindent();
+
         }
 
         #region WorkTimer
 
         /// <summary>
-        /// Starting the timer.
+        /// Starting the work-timer.
         /// </summary>
         /// <param name="sender">btnStart</param>
         /// <param name="e"></param>
-        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            lblState.Content = "Working";
-            btnStart.Visibility = Visibility.Hidden;
-            btnPause.Visibility = Visibility.Visible;
-            btnStop.Visibility = Visibility.Visible;
+            Debug.Indent();
+            Debug.WriteLine("MainWindow - Startbutton was clicked!");
+            Debug.Unindent();
 
-            StartTimer("btnStart_Click()", pauseTimer, "PauseTimer", workTimer, "WorkTomer");
+            if (!workingDayIsOver)
+            {
+                lblState.Content = "Working";
+                btnStart.Visibility = Visibility.Hidden;
+                btnPause.Visibility = Visibility.Visible;
+                btnStop.Visibility = Visibility.Visible;
+
+                StartTimer("btnStart_Click()", pauseTimer, "PauseTimer", workTimer, "WorkTomer");
+            }
+            else
+            {
+                Debug.WriteLine("MainWindow - Working day is over!");
+                Debug.Unindent();
+            }
+
+           
         }
 
         /// <summary>
-        /// Counts the time.
+        /// Counts the time of the work-time.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">btnStart_Click</param>
         /// <param name="e"></param>
         private void WorkTimer_Tick(object sender, EventArgs e)
         {
             Debug.Indent();
-            Debug.WriteLine("\nMainWindow - 'WorkTimer_Tick'");
+            Debug.WriteLine("MainWindow - 'WorkTimer_Tick'");
 
             try
             {
@@ -102,12 +120,16 @@ namespace TimeRecorder.gui
         #region PauseTimer
 
         /// <summary>
-        /// Starts the paused time.
+        /// Starting the pause-time.
         /// </summary>
-        /// <param name="sender">Button</param>
+        /// <param name="sender">btnPause</param>
         /// <param name="e"></param>
-        private void BtnPause_Click(object sender, RoutedEventArgs e)
+        private void btnPause_Click(object sender, RoutedEventArgs e)
         {
+            Debug.Indent();
+            Debug.WriteLine("MainWindow - Pausebutton was clicked!");
+            Debug.Unindent();
+
             lblState.Content = "Pause";
             btnStart.Visibility = Visibility.Visible;
             btnPause.Visibility = Visibility.Hidden;
@@ -116,10 +138,15 @@ namespace TimeRecorder.gui
             StartTimer("btnPause_Click()", workTimer, "WorkTimer", pauseTimer, "PauseTimer");
         }
 
+        /// <summary>
+        /// Counts the time of the pause-work.
+        /// </summary>
+        /// <param name="sender">btnPause_Click</param>
+        /// <param name="e"></param>
         private void PauseTimer_Tick(object sender, EventArgs e)
         {
             Debug.Indent();
-            Debug.WriteLine("\nMainWindow - 'PauseTimer_Tick()'");
+            Debug.WriteLine("MainWindow - 'PauseTimer_Tick()'");
             
             try
             {
@@ -152,36 +179,21 @@ namespace TimeRecorder.gui
         private void StartTimer(string eventName, DispatcherTimer stoppedTimer, string stoppedTimerName, DispatcherTimer startedTimer, string startedTimerName)
         {
             Debug.Indent();
-            Debug.WriteLine($"\nMainWindow - '{eventName}'");
+            Debug.WriteLine($"MainWindow - '{eventName}'");
+            Debug.Unindent();
             
             try
             {
                 if (stoppedTimer.IsEnabled)
                 {
-                    endTime = DateTime.Now;
-                    stoppedTimer.Stop();
-                    Debug.WriteLine($"{stoppedTimer} stopped! At: {endTime}.");
-
-                    TimeObject to = CreateTimeObject(stoppedTimerName);
-
-                    if (to != null)
-                    {
-                        /*
-                        /// Save the time of the stopped timer
-                        TimeManagement tm = new TimeManagement();
-                        */
-                        
-                        /// Load data in the ListView
-                        lvUser.Items.Add(to);
-                    }
-                    
-                    actualTime = new TimeSpan(0, 0, 0, 0);
-                    Debug.WriteLine("Reset time.");
+                    StopTimerAndAddOutput(eventName, stoppedTimer, stoppedTimerName);
                 }
 
                 if (!startedTimer.IsEnabled)
                 {
                     startTime = DateTime.Now;
+
+                    Debug.Indent();
                     Debug.WriteLine($"{startedTimer} gets successfull started at: {startTime}");
                     Debug.Unindent();
 
@@ -210,8 +222,100 @@ namespace TimeRecorder.gui
                 return new TimeObject() { TimeType = TimeType.Pause, Description = "", StartTime = startTime, EndTime = endTime, ElapsedTime = endTime - startTime };
         }
 
-            /// StopButton (btnStop) => Events
+        #region Stop
+        
+        /// <summary>
+        /// This boolean is for the check, if the working day is over
+        /// </summary>
+        bool workingDayIsOver = false;
 
+        /// <summary>
+        /// Stops the current TimeObject (work/pause) and it is also the stop of the working day!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.Indent();
+            Debug.WriteLine("MainWindow - Stopbutton was clicked!");
+            Debug.Unindent();
+
+            try
+            {
+                if (workTimer.IsEnabled)
+                    StopTimerAndAddOutput("btnStop_Click()", workTimer, "WorkTimer");
+                else if (pauseTimer.IsEnabled)
+                    StopTimerAndAddOutput("btnStop_Click()", pauseTimer, "PauseTimer");
+
+                lblState.Content = "Working day is over";
+                btnStart.Visibility = Visibility.Visible;
+                btnPause.Visibility = Visibility.Hidden;
+                btnStop.Visibility = Visibility.Hidden;
+
+                workingDayIsOver = true;
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+                Debug.Indent();
+                Debug.WriteLine("Error in 'btnStop_Click()'");
+                Debug.WriteLine($"Error Message: {ex.Message}");
+                Debug.Unindent();
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Stops the current timer, execute the Save-method of the BL, execute the Load-method of the BL 
+        /// and adds the current TimeObject to the User-ListView.
+        /// </summary>
+        /// <param name="eventName">Name of the area where this method is called</param>
+        /// <param name="stoppedTimer">Timer which should be stopped</param>
+        /// <param name="stoppedTimerName">Name of the timer, which should be stopped</param>
+        /// <returns></returns>
+        private bool StopTimerAndAddOutput(string eventName, DispatcherTimer stoppedTimer, string stoppedTimerName)
+        {
+            bool result = false;
+
+            Debug.Indent();
+            Debug.WriteLine("MainWindow - 'StopTimerAndAddOutput()'");
+
+            try
+            {
+                endTime = DateTime.Now;
+                stoppedTimer.Stop();
+                Debug.WriteLine($"{stoppedTimer} stopped! At: {endTime}.");
+
+                TimeObject to = CreateTimeObject(stoppedTimerName);
+
+                if (to != null)
+                {
+                    /*
+                    /// Save the time of the stopped timer
+                    TimeManagement tm = new TimeManagement();
+                    */
+
+                    /// Load data in the ListView
+                    lvUser.Items.Add(to);
+
+                    result = true;
+                }
+
+                actualTime = new TimeSpan(0, 0, 0, 0);
+                Debug.WriteLine("Reset time.");
+                Debug.Unindent();
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+                Debug.WriteLine("Error in 'StopTimerAndAddOutput()'");
+                Debug.WriteLine($"Error Message: {ex.Message}");
+                Debug.Unindent();
+            }
+
+            return result;
+        }
         
     }
 }
