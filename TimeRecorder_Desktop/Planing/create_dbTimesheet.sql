@@ -1,7 +1,13 @@
 USE master
 GO
 
+DROP DATABASE dbTimeSheet
+GO
+
 CREATE DATABASE dbTimeSheet
+GO
+
+USE dbTimeSheet
 GO
 
 CREATE TABLE tblPermission
@@ -38,5 +44,23 @@ CREATE TABLE tblTime
 	[Description] NVARCHAR(255),
 	State VARCHAR(30) NOT NULL,
 	TotalTime DECIMAL
+);
+GO
+
+/*
+
+• MD5 = 128-bit hash value.
+• SHA1 = 160-bit hash value.
+• SHA224 = 224-bit hash value.
+• SHA256 = 256-bit hash value.
+• SHA384 = 384-bit hash value.
+• SHA512 = 512-bit hash value.
+
+*/
+
+CREATE TABLE tblLogin
+(
+	IDLogin INT PRIMARY KEY REFERENCES tblUser NOT NULL,
+	[Password] VARCHAR(20) NOT NULL
 );
 GO
