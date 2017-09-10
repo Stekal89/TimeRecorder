@@ -31,7 +31,7 @@ CREATE TABLE tblUser
 	Place VARCHAR(100) NOT NULL,
 	ZIPCode VARCHAR(10) NOT NULL,
 	Department NVARCHAR(100) NOT NULL,
-	Email NVARCHAR(MAX) 
+	Email NVARCHAR(MAX)
 );
 GO
 
@@ -43,7 +43,7 @@ CREATE TABLE tblTime
 	EndTime DATETIME,
 	[Description] NVARCHAR(255),
 	State VARCHAR(30) NOT NULL,
-	TotalTime DECIMAL
+	TotalTime FLOAT
 );
 GO
 
@@ -61,6 +61,7 @@ GO
 CREATE TABLE tblLogin
 (
 	IDLogin INT PRIMARY KEY REFERENCES tblUser NOT NULL,
-	[Password] VARCHAR(20) NOT NULL
+	[Password] NVARCHAR(40) NOT NULL,
+	DefaultPasswort BIT NOT NULL
 );
 GO
